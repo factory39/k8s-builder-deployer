@@ -23,7 +23,9 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag factory39/k8s-builder-deployer:$(git rev-parse --short HEAD)
     - name: Docker Push Sha
-      run: docker push factory39/k8s-builder-deployer:$(git rev-parse --short HEAD) 
+      run: docker push factory39/k8s-builder-deployer:$(git rev-parse --short HEAD)
+    - name: Docker Tag Latest
+      run: docker tag factory39/k8s-builder-deployer:$(git rev-parse --short HEAD) factory39/k8s-builder-deployer:latest
     - name: Docker Push Latest
-      run: docker push factory39/k8s-builder-deployer:$(git rev-parse --short HEAD) factory39/k8s-builder-deployer:latest
+      run: docker push factory39/k8s-builder-deployer:latest
     
