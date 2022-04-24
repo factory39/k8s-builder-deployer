@@ -21,6 +21,9 @@ jobs:
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag k8s-builder-deployer:$(date +%s)
-    - name: Docker Push
-      run: docker push factory39/k8s-builder-deployer
+      run: docker build . --file Dockerfile --tag factory39/k8s-builder-deployer:$(git rev-parse --short HEAD)
+    - name: Docker Push Sha
+      run: docker push factory39/k8s-builder-deployer:$(git rev-parse --short HEAD) 
+    - name: Docker Push Latest
+      run: docker push factory39/k8s-builder-deployer:$(git rev-parse --short HEAD) factory39/k8s-builder-deployer:latest
+    
