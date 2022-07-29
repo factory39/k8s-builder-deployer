@@ -1,9 +1,10 @@
 ARG DOCKER_VERSION=latest
 FROM docker:${DOCKER_VERSION}
-ARG KUBECTL_VERSION=v1.23.6
-ARG SOPS_VERSION=v3.7.2
+ARG KUBECTL_VERSION=v1.24.3
+ARG SOPS_VERSION=v3.7.3
 ARG AGE_VERSION=v1.0.0
 ARG COMPOSE_VERSION=1.29.2
+ARG DOCTL_VERSION=1.78.0
 
 RUN apk add --no-cache py3-pip python3 curl git openssl go bash
 RUN apk add --no-cache --virtual \
@@ -20,6 +21,7 @@ RUN apk add --no-cache --virtual \
   && apk del build-dependencies
 
 RUN curl -LO "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl" && chmod +x kubectl && mv kubectl /usr/local/bin/kubectl
+RUN curl -LO "https://github.com/digitalocean/doctl/releases/download/v${DOCTL_VERSION}/doctl-${DOCTL_VERSION}-linux-amd64.tar.gz" && tar xf doctl-${DOCTL_VERSION}-linux-amd64.tar.gz && mv doctl /usr/local/bin/doctl
 RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && chmod +x get_helm.sh && ./get_helm.sh
 RUN helm plugin install https://github.com/databus23/helm-diff && \
   helm plugin install https://github.com/jkroepke/helm-secrets
